@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <% include ./partials/head %>
+</head>
+<body>
+  <header>
+  <% include ./partials/header %>
+  </header>
+  <main>
+    <div>
+      <h1>Main page</h1>
+    </div>
+    <div id="user_info">
+      <h2>user_info</h2>
+      <ul>
+        <li><img src="<%= user_info.avatar_url %>"></li>
+        <li><%= user_info.name %></li>
+      </ul>
+    </div>
+    <div id="user_info">
+      <h2>user contents</h2>
+    </div>
+  </main>
+  <footer>
+  <% include ./partials/footer %>
+  </footer>
+</body>
+</html>

@@ -17,6 +17,7 @@
     "box-node-sdk": "^1.0.0",
     "ejs": "^2.5.1",
     "express": "^4.14.0",
+    "express-session": "^1.14.1",
     "log4js": "^0.6.38",
     "logger": "0.0.1"
   },

@@ -1,14 +1,18 @@
 "use strict";
 
 const express = require('express');
+const session = require('express-session');
 const log4js = require('log4js');
 const fs = require('fs');
 const https = require('https');
 
 const BoxInterface = require('./server_libs/box_interface');
 
+const conf = require("./conf/conf.json");
+
 const app = express();
 const logger = log4js.getLogger("app");
+
 
 //////////////////////////////////////////////////////////////
 // network setting section
@@ -23,7 +27,17 @@ const PORT = process.env.PORT || 3000;
 //////////////////////////////////////////////////////////////
 const box = new BoxInterface();
 app.set('view engine', 'ejs');
+app.set('trust proxy', 1);
 app.use(express.static('public'));
+app.use(session({
+  "secret" : conf.app.session_secret,
+  "resave" : false,
+  "saveUninitialized": true,
+  "cookie": {
+    "maxAge": 86400,
+    "secure": true
+  }
+}))
 
 //////////////////////////////////////////////////////////////
 // routing section
@@ -33,26 +47,50 @@ app.use(express.static('public'));
 // pages
 
 app.get('/', (req, res) => {
+  const sess = req.session;
+
   const opts = {
     'title': 'box-skyway: login page',
     'auth_endpoint': box.auth_endpoint,
     'client_id': box.client_id
   }
-  res.render('index', opts);
+
+  if(req.query.code) {
+    const code = req.query.code;
+    box.createClient(sess.id, code, (err, data) => {
+      if ( data ) {
+        res.redirect("/main")
+      } else {
+        res.redirect("/");
+      }
+    })
+  } else {
+    const opts = {
+      'title': 'box-skyway: login page',
+      'auth_endpoint': box.auth_endpoint,
+      'client_id': box.client_id
+    };
+    res.render('index', opts);
+  }
 });
 
-app.get('/access_token', (req, res) => {
-  const opts = {
-    'title': 'box-skyway: access-token'
-  }
-  res.render('access_token', opts);
-});
+app.get('/main', (req, res) => {
+  const sess = req.session;
 
-app.get('/fileviewer', (req, res) => {
-  const opts = {
-    'title': 'box-skyway: fileviewer'
-  }
-  res.render('fileviewer', opts);
+  box.getUserInfo(sess.id, (err, user_info) => {
+    if( user_info ) {
+      logger.debug(user_info);
+
+      const opts = {
+        'title': 'box-skyway: main',
+        'user_info': user_info
+      }
+      res.render('main', opts);
+    }  else {
+      logger.warn("cannot get user info for %s", sess.id);
+      res.redirect("/");
+    }
+  });
 });
 
 // apis
