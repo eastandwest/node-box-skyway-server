@@ -1,16 +1,27 @@
 <!doctype html>
 <html>
 <head>
-  <% include ../partials/head %>
+  <% include ./partials/head %>
 </head>
 <body>
   <header>
-  <% include ../partials/header %>
+  <% include ./partials/header %>
   </header>
   <main>
+    <div>
+      <h1>Welcome to SlideShare for Enterprise</h1>
+      <p>leveraging box and skyway technology</p>
+    </div>
+    <div>
+      <p>
+        <a href="<%= auth_endpoint %>?response_type=code&client_id=<%=client_id%>&state=foobar">
+          Login: box
+        </a>
+      </p>
+    </div>
   </main>
   <footer>
-  <% include ../partials/footer %>
+  <% include ./partials/footer %>
   </footer>
 </body>
 </html>
