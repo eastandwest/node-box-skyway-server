@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+  <% include ./partials/head %>
+</head>
+<body>
+  <header>
+  <% include ./partials/header %>
+  </header>
+  <main>
+    <div>
+      <h1>File page</h1>
+    </div>
+    <div id="file-viewer"></div>
+    <div id="file-info">
+      <h2>name : <%= file_info.name %></h2>
+      <ul>
+        <li>description: <%= file_info.description %></li>
+        <li>id: <%= file_info.id %></li>
+        <li>parent folder: <%= file_info.parent.name %></li>
+        <li>parent folder_id: <%= file_info.parent.id %></li>
+      </ul>
+    </div>
+    <div>
+      <a href="/folder/<%= file_info.parent.id %>">back to folder</a>
+    </div>
+  </main>
+  <footer>
+  <% include ./partials/footer %>
+  </footer>
+  <script>
+  var g_file_id = '<%= file_info.id %>';
+  </script>
+  <script src="/scripts/skyway-box-react-file.build.js"></script>
+</body>
+</html>

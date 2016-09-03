@@ -8,7 +8,8 @@ switch(process.env.NODE_ENV) {
   case "test":
   default:
     _entry = {
-      "skyway-box-react": "./client_libs/index.js"
+      "skyway-box-react-folder": "./client_libs/entry-folder.js",
+      "skyway-box-react-file": "./client_libs/entry-file.js"
     };
     break;
 }
@@ -17,8 +18,8 @@ module.exports = {
   entry: _entry,
   devtool: "source-map",
   output: {
-    path: path.join(__dirname, "public"),
-    publicPath: "public",
+    path: path.join(__dirname, "public/scripts"),
+    publicPath: "public/scripts",
     filename: process.env.NODE_ENV === "production" ? "[name].build.min.js" : "[name].build.js"
   },
   module: {

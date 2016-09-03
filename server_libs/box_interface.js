@@ -30,11 +30,11 @@ class BoxInterface {
     return this._auth_endpoint;
   }
 
-  createClient(client_id, code, callback) {
+  createClient(box_client_id, code, callback) {
     this.box.getTokensAuthorizationCodeGrant(code, null, (err, tokenInfo) => {
       if ( tokenInfo ) {
         const client = this.box.getPersistentClient(tokenInfo);
-        this._clients[client_id] = client;
+        this._clients[box_client_id] = client;
         callback(null, "succeed");
       } else {
         const err_mesg = "can't create token : " + err.toString();
@@ -44,22 +44,85 @@ class BoxInterface {
     });
   }
 
-  getBoxClient(client_id) {
-    return this._clients[client_id];
+  getBoxClient(box_client_id) {
+    return this._clients[box_client_id];
   }
 
-  getUserInfo(client_id, callback) {
-    const box_client = this.getBoxClient(client_id);
+  getUserInfo(box_client_id, callback) {
+    const box_client = this.getBoxClient(box_client_id);
     if(box_client) {
       box_client.users.get(
         box_client.CURRENT_USER_ID,
         null,
-        (err, user_info) => {
-          callback(err, user_info);
-        }
+        callback
       );
     } else {
-      callback("can't find box client for " + client_id, null);
+      callback("can't find box client for " + box_client_id.substring(0, 8), null);
+    }
+  }
+
+  getFileInfo(box_client_id, file_id, callback) {
+    const box_client = this.getBoxClient(box_client_id);
+
+    if(box_client) {
+      box_client.files.get(
+        file_id.toString(),
+        null,
+        callback
+      );
+    } else {
+      callback("can't find box client for " + box_client_id.substring(0, 8), null);
+    }
+  }
+
+  getExpiringEmbedLink(box_client_id, file_id, callback) {
+    const box_client = this.getBoxClient(box_client_id);
+
+    if(box_client) {
+      box_client.files.get(
+        file_id.toString(),
+        {"fields": "expiring_embed_link"},
+        callback
+      );
+    } else {
+      callback("can't find box client for " + box_client_id.substring(0, 8), null);
+    }
+  }
+
+
+  getFolderInfo(box_client_id, folder_id, callback) {
+    const box_client = this.getBoxClient(box_client_id);
+
+    if(box_client) {
+      box_client.folders.getItems(
+        folder_id.toString(),
+        {
+          fields: 'name,parent,path_collection',
+          offset: 0,
+          limit: 25
+        },
+        callback
+      );
+    } else {
+      callback("can't find box client for " + box_client_id.substring(0, 8), null);
+    }
+  }
+
+  getFolderItems(box_client_id, folder_id, callback) {
+    const box_client = this.getBoxClient(box_client_id);
+
+    if(box_client) {
+      box_client.folders.getItems(
+        folder_id.toString(),
+        {
+          fields: 'name,modified_at,size,url,permissions,sync_state,path_collection',
+          offset: 0,
+          limit: 25
+        },
+        callback
+      );
+    } else {
+      callback("can't find box client for " + box_client_id.substring(0, 8), null);
     }
   }
 }
