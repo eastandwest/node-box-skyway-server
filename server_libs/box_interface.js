@@ -89,6 +89,16 @@ class BoxInterface {
     }
   }
 
+  getThumbnail(box_client_id, file_id, qs, callback) {
+    const box_client = this.getBoxClient(box_client_id);
+
+    if(box_client) {
+      box_client.files.getThumbnail(file_id, qs, callback);
+    } else {
+      callback("can't find box client for " + box_client_id.substring(0, 8), null);
+    }
+  }
+
 
   getFolderInfo(box_client_id, folder_id, callback) {
     const box_client = this.getBoxClient(box_client_id);

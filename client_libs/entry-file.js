@@ -1,13 +1,18 @@
 "use strict";
 
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React    from 'react';
+import ReactDOM from 'react-dom';
 
-const BoxFileViewer = require('./box_modules/file_viewer');
+import BoxUserProfile from './box_modules/user_profile';
+import BoxFileViewer  from './box_modules/file_viewer';
 
-const file_id = g_file_id;
+const file_data = g_file_data;
+const user_data = g_user_data;
 
 ReactDOM.render(
-  <BoxFileViewer file_id={file_id} />,
-  document.getElementById('file-viewer')
+  <div>
+    <BoxUserProfile user_data={user_data} />
+    <BoxFileViewer file_data={file_data} />
+  </div>,
+  document.getElementById('main-contents')
 );

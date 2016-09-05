@@ -55,11 +55,16 @@ app.get('/', (req, res) => {
     'client_id': box.client_id
   }
 
-  if(req.query.code) {
+  const prev = req.query.prev;
+  const state = req.query.state;
+
+  if( req.query.code ) {
     const code = req.query.code;
+    const url = !!state ? state : '/foldeer/0';
+
     box.createClient(sess.id, code, (err, data) => {
       if ( data ) {
-        res.redirect("/folder/0")
+        res.redirect(url);
       } else {
         res.redirect("/");
       }
@@ -68,7 +73,8 @@ app.get('/', (req, res) => {
     const opts = {
       'title': 'box-skyway: login page',
       'auth_endpoint': box.auth_endpoint,
-      'client_id': box.client_id
+      'client_id': box.client_id,
+      'state': prev
     };
     res.render('index', opts);
   }
@@ -79,18 +85,18 @@ app.get('/folder/:folder_id', (req, res) => {
   const sess = req.session;
 
 
-  box.getUserInfo(sess.id, (err, user_info) => {
-    if( user_info ) {
+  box.getUserInfo(sess.id, (err, user_data) => {
+    if( user_data ) {
 
       const opts = {
-        'folder_id': folder_id,
         'title': 'box-skyway: main',
-        'user_info': user_info
+        'user_data': user_data,
+        'folder_id': folder_id
       }
-      res.render('main', opts);
+      res.render('folder', opts);
     }  else {
       logger.warn("cannot get user info for %s", sess.id);
-      res.redirect("/");
+      res.redirect("/?prev=/folder/"+folder_id);
     }
   });
 });
@@ -99,15 +105,22 @@ app.get('/file/:file_id', (req, res) => {
   const sess = req.session;
   const file_id = req.params.file_id;
 
-  box.getFileInfo(sess.id, file_id, (err, data) => {
-    if(data && !err) {
-      const opts = {
-        'title': 'box-skyway: file',
-        'file_info': data
-      }
-      res.render('file', opts);
+  box.getUserInfo(sess.id, (err, user_data) => {
+    if(user_data && !err) {
+      box.getFileInfo(sess.id, file_id, (err, file_data) => {
+        if(file_data && !err) {
+          const opts = {
+            'title': 'box-skyway: file',
+            'user_data': user_data,
+            'file_data': file_data
+          }
+          res.render('file', opts);
+        } else {
+          res.redirect('/?prev=/file/'+file_id);
+        }
+      })
     } else {
-      res.redirect('/');
+      res.redirect('/?prev=/file/'+file_id);
     }
   })
 })
@@ -157,9 +170,30 @@ app.get('/api/expiring_embed_link/:file_id', (req, res) => {
       res.status(400).send(err);
     }
   })
-
 })
 
+app.get('/api/thumbnail/:file_id', (req, res) => {
+  const file_id = req.params.file_id;
+  const sess = req.session;
+  const qs = req.query;
+
+  if(!sess.id) { res.redirect('/'); }
+
+  box.getThumbnail(sess.id, file_id, qs, (err, data) => {
+    if(data && !err) {
+      if(data.location) {
+        res.redirect(data.location);
+      } else if(data.file) {
+        res.send(data.file);
+      } else {
+        // fixme : should be redirected to dummy contents
+        res.status(404).end("");
+      }
+    } else {
+      res.status(403).send(err);
+    }
+  });
+})
 
 //////////////////////////////////////////////////////////////
 // start server process

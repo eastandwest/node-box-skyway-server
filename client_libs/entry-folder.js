@@ -1,13 +1,18 @@
 "use strict";
 
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const BoxFileItems = require('./box_modules/file_items');
+import BoxUserProfile from './box_modules/user_profile';
+import BoxFolderViewer   from './box_modules/folder_viewer';
 
-const folder_id = g_folder_id;
+const folder_id = g_folder_id
+  , user_data = g_user_data;
 
 ReactDOM.render(
-  <BoxFileItems folderId={folder_id}/>,
-  document.getElementById('example')
+  <div>
+    <BoxUserProfile user_data={user_data} />
+    <BoxFolderViewer folderId={folder_id} />
+  </div>,
+  document.getElementById('main-contents')
 );

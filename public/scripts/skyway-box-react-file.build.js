@@ -46,14 +46,33 @@
 
 	"use strict";
 	
-	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(34);
+	var _react = __webpack_require__(1);
 	
-	var BoxFileViewer = __webpack_require__(172);
+	var _react2 = _interopRequireDefault(_react);
 	
-	var file_id = g_file_id;
+	var _reactDom = __webpack_require__(34);
 	
-	ReactDOM.render(React.createElement(BoxFileViewer, { file_id: file_id }), document.getElementById('file-viewer'));
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	var _user_profile = __webpack_require__(172);
+	
+	var _user_profile2 = _interopRequireDefault(_user_profile);
+	
+	var _file_viewer = __webpack_require__(173);
+	
+	var _file_viewer2 = _interopRequireDefault(_file_viewer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var file_data = g_file_data;
+	var user_data = g_user_data;
+	
+	_reactDom2.default.render(_react2.default.createElement(
+	  'div',
+	  null,
+	  _react2.default.createElement(_user_profile2.default, { user_data: user_data }),
+	  _react2.default.createElement(_file_viewer2.default, { file_data: file_data })
+	), document.getElementById('main-contents'));
 
 /***/ },
 /* 1 */
@@ -21432,68 +21451,232 @@
 
 	"use strict";
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactXhr = __webpack_require__(173);
-	
-	var _reactXhr2 = _interopRequireDefault(_reactXhr);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var BoxFileViewer = _react2.default.createClass({
-	  displayName: 'BoxFileViewer',
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	  mixins: [_reactXhr2.default.Mixin],
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	  getInitialState: function getInitialState() {
-	    return {
-	      file_id: this.props.file_id
-	    };
-	  },
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	  componentDidMount: function componentDidMount() {},
-	  /////////////////////////////////////
-	  // xhr setting
-	  getXhrs: function getXhrs() {
-	    return {
-	      expiring_embed_link: {
-	        url: '/api/expiring_embed_link/' + this.props.file_id,
-	        method: 'get'
-	      }
-	    };
-	  },
-	  render: function render() {
-	    var data = this.state.xhrs.expiring_embed_link.body;
-	    var viewer_url = data.expiring_embed_link && data.expiring_embed_link.url || null;
+	var BoxUserProfile = function (_React$Component) {
+	  _inherits(BoxUserProfile, _React$Component);
 	
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      viewer_url ? _react2.default.createElement('iframe', {
-	        src: viewer_url,
-	        width: '640',
-	        height: '480'
-	      }) : ""
-	    );
+	  function BoxUserProfile() {
+	    _classCallCheck(this, BoxUserProfile);
+	
+	    return _possibleConstructorReturn(this, (BoxUserProfile.__proto__ || Object.getPrototypeOf(BoxUserProfile)).apply(this, arguments));
 	  }
-	});
 	
-	module.exports = BoxFileViewer;
+	  _createClass(BoxUserProfile, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "rn-components" },
+	        _react2.default.createElement(
+	          "h2",
+	          null,
+	          "user_info"
+	        ),
+	        _react2.default.createElement(
+	          "ul",
+	          null,
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            _react2.default.createElement("img", { src: this.props.user_data.avatar_url })
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            this.props.user_data.name
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return BoxUserProfile;
+	}(_react2.default.Component);
+	
+	;
+	
+	module.exports = BoxUserProfile;
 
 /***/ },
 /* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactXhr = __webpack_require__(174);
+	
+	var _reactXhr2 = _interopRequireDefault(_reactXhr);
+	
+	var _slide_viewer = __webpack_require__(206);
+	
+	var _slide_viewer2 = _interopRequireDefault(_slide_viewer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BoxFileViewerMeta = function (_React$Component) {
+	  _inherits(BoxFileViewerMeta, _React$Component);
+	
+	  function BoxFileViewerMeta() {
+	    _classCallCheck(this, BoxFileViewerMeta);
+	
+	    return _possibleConstructorReturn(this, (BoxFileViewerMeta.__proto__ || Object.getPrototypeOf(BoxFileViewerMeta)).apply(this, arguments));
+	  }
+	
+	  _createClass(BoxFileViewerMeta, [{
+	    key: 'render',
+	    value: function render() {
+	      var file_data = this.props.file_data;
+	      var thumbnailurl = '/api/thumbnail/' + file_data.id;
+	      var qs = 'min_width=32&min_height=32';
+	
+	      var req = thumbnailurl + '?' + qs;
+	
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          _react2.default.createElement('img', { src: req }),
+	          ' ',
+	          file_data.name
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          null,
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            'description: ',
+	            file_data.description
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            'id: ',
+	            file_data.id
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            'parent folder: ',
+	            file_data.parent.name
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            'parent folder_id: ',
+	            file_data.parent.id
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return BoxFileViewerMeta;
+	}(_react2.default.Component);
+	
+	var BoxFileViewerParentLink = function (_React$Component2) {
+	  _inherits(BoxFileViewerParentLink, _React$Component2);
+	
+	  function BoxFileViewerParentLink() {
+	    _classCallCheck(this, BoxFileViewerParentLink);
+	
+	    return _possibleConstructorReturn(this, (BoxFileViewerParentLink.__proto__ || Object.getPrototypeOf(BoxFileViewerParentLink)).apply(this, arguments));
+	  }
+	
+	  _createClass(BoxFileViewerParentLink, [{
+	    key: 'render',
+	    value: function render() {
+	      var parent = this.props.parent,
+	          href = "/folder/" + parent.id;
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'a',
+	          { href: href },
+	          'back to folder: ',
+	          parent.name
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return BoxFileViewerParentLink;
+	}(_react2.default.Component);
+	
+	var BoxFileViewer = function (_React$Component3) {
+	  _inherits(BoxFileViewer, _React$Component3);
+	
+	  function BoxFileViewer(props) {
+	    _classCallCheck(this, BoxFileViewer);
+	
+	    var _this3 = _possibleConstructorReturn(this, (BoxFileViewer.__proto__ || Object.getPrototypeOf(BoxFileViewer)).call(this));
+	
+	    _this3.state = {
+	      file_data: props.file_data
+	    };
+	    return _this3;
+	  }
+	
+	  _createClass(BoxFileViewer, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'rn-components' },
+	        _react2.default.createElement(BoxFileViewerParentLink, { parent: this.state.file_data.parent }),
+	        _react2.default.createElement(_slide_viewer2.default, { file_id: this.state.file_data.id, width: '640', height: '480' }),
+	        _react2.default.createElement(BoxFileViewerMeta, { file_data: this.state.file_data })
+	      );
+	    }
+	  }]);
+	
+	  return BoxFileViewer;
+	}(_react2.default.Component);
+	
+	;
+	
+	module.exports = BoxFileViewer;
+
+/***/ },
+/* 174 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
-	var XhrMixin = __webpack_require__(174);
+	var XhrMixin = __webpack_require__(175);
 	
-	var defaultPerformXhr = __webpack_require__(191);
-	var performXhr = __webpack_require__(190);
-	var render = __webpack_require__(199);
-	var renderToString = __webpack_require__(200);
+	var defaultPerformXhr = __webpack_require__(192);
+	var performXhr = __webpack_require__(191);
+	var render = __webpack_require__(200);
+	var renderToString = __webpack_require__(201);
 	
 	var ReactXhr = {
 	  Mixin: XhrMixin,
@@ -21510,17 +21693,17 @@
 
 
 /***/ },
-/* 174 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
-	var PreloadedData = __webpack_require__(175);
+	var PreloadedData = __webpack_require__(176);
 	
-	var assign = __webpack_require__(178);
-	var mapValues = __webpack_require__(179);
-	var performXhr = __webpack_require__(190);
-	var stringifyXhrSpec = __webpack_require__(177);
+	var assign = __webpack_require__(179);
+	var mapValues = __webpack_require__(180);
+	var performXhr = __webpack_require__(191);
+	var stringifyXhrSpec = __webpack_require__(178);
 	
 	var EMPTY_RESPONSE = {
 	  err: null,
@@ -21647,13 +21830,13 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 175 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var invariant = __webpack_require__(176);
-	var stringifyXhrSpec = __webpack_require__(177);
+	var invariant = __webpack_require__(177);
+	var stringifyXhrSpec = __webpack_require__(178);
 	
 	var data = {};
 	
@@ -21689,7 +21872,7 @@
 
 
 /***/ },
-/* 176 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -21747,12 +21930,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 177 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var invariant = __webpack_require__(176);
+	var invariant = __webpack_require__(177);
 	
 	function stringifyXhrSpec(spec) {
 	  invariant(typeof spec === 'object', 'spec must be an object');
@@ -21773,7 +21956,7 @@
 
 
 /***/ },
-/* 178 */
+/* 179 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -21862,7 +22045,7 @@
 
 
 /***/ },
-/* 179 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -21873,9 +22056,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCallback = __webpack_require__(180),
-	    baseFor = __webpack_require__(189),
-	    keys = __webpack_require__(184);
+	var baseCallback = __webpack_require__(181),
+	    baseFor = __webpack_require__(190),
+	    keys = __webpack_require__(185);
 	
 	/**
 	 * The base implementation of `_.forOwn` without support for callback
@@ -21959,7 +22142,7 @@
 
 
 /***/ },
-/* 180 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -21970,10 +22153,10 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseIsEqual = __webpack_require__(181),
-	    bindCallback = __webpack_require__(187),
-	    isArray = __webpack_require__(182),
-	    pairs = __webpack_require__(188);
+	var baseIsEqual = __webpack_require__(182),
+	    bindCallback = __webpack_require__(188),
+	    isArray = __webpack_require__(183),
+	    pairs = __webpack_require__(189);
 	
 	/** Used to match property names within property paths. */
 	var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\n\\]|\\.)*?\1)\]/,
@@ -22387,7 +22570,7 @@
 
 
 /***/ },
-/* 181 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -22398,9 +22581,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var isArray = __webpack_require__(182),
-	    isTypedArray = __webpack_require__(183),
-	    keys = __webpack_require__(184);
+	var isArray = __webpack_require__(183),
+	    isTypedArray = __webpack_require__(184),
+	    keys = __webpack_require__(185);
 	
 	/** `Object#toString` result references. */
 	var argsTag = '[object Arguments]',
@@ -22735,7 +22918,7 @@
 
 
 /***/ },
-/* 182 */
+/* 183 */
 /***/ function(module, exports) {
 
 	/**
@@ -22921,7 +23104,7 @@
 
 
 /***/ },
-/* 183 */
+/* 184 */
 /***/ function(module, exports) {
 
 	/**
@@ -23075,7 +23258,7 @@
 
 
 /***/ },
-/* 184 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -23086,9 +23269,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var getNative = __webpack_require__(185),
-	    isArguments = __webpack_require__(186),
-	    isArray = __webpack_require__(182);
+	var getNative = __webpack_require__(186),
+	    isArguments = __webpack_require__(187),
+	    isArray = __webpack_require__(183);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -23317,7 +23500,7 @@
 
 
 /***/ },
-/* 185 */
+/* 186 */
 /***/ function(module, exports) {
 
 	/**
@@ -23460,7 +23643,7 @@
 
 
 /***/ },
-/* 186 */
+/* 187 */
 /***/ function(module, exports) {
 
 	/**
@@ -23695,7 +23878,7 @@
 
 
 /***/ },
-/* 187 */
+/* 188 */
 /***/ function(module, exports) {
 
 	/**
@@ -23766,7 +23949,7 @@
 
 
 /***/ },
-/* 188 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -23777,7 +23960,7 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var keys = __webpack_require__(184);
+	var keys = __webpack_require__(185);
 	
 	/**
 	 * Converts `value` to an object if it's not one.
@@ -23850,7 +24033,7 @@
 
 
 /***/ },
-/* 189 */
+/* 190 */
 /***/ function(module, exports) {
 
 	/**
@@ -23904,13 +24087,13 @@
 
 
 /***/ },
-/* 190 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var assign = __webpack_require__(178);
-	var invariant = __webpack_require__(176);
+	var assign = __webpack_require__(179);
+	var invariant = __webpack_require__(177);
 	
 	var _performXhr = null;
 	
@@ -23949,12 +24132,12 @@
 
 
 /***/ },
-/* 191 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var xhr = __webpack_require__(192);
+	var xhr = __webpack_require__(193);
 	
 	function defaultPerformXhr(spec, cb) {
 	  // This is really dumb, but xhr() deeply mutates the spec
@@ -23971,14 +24154,14 @@
 
 
 /***/ },
-/* 192 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var window = __webpack_require__(193)
-	var isFunction = __webpack_require__(194)
-	var parseHeaders = __webpack_require__(195)
-	var xtend = __webpack_require__(198)
+	var window = __webpack_require__(194)
+	var isFunction = __webpack_require__(195)
+	var parseHeaders = __webpack_require__(196)
+	var xtend = __webpack_require__(199)
 	
 	module.exports = createXHR
 	createXHR.XMLHttpRequest = window.XMLHttpRequest || noop
@@ -24212,7 +24395,7 @@
 
 
 /***/ },
-/* 193 */
+/* 194 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {if (typeof window !== "undefined") {
@@ -24228,7 +24411,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 194 */
+/* 195 */
 /***/ function(module, exports) {
 
 	module.exports = isFunction
@@ -24249,11 +24432,11 @@
 
 
 /***/ },
-/* 195 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var trim = __webpack_require__(196)
-	  , forEach = __webpack_require__(197)
+	var trim = __webpack_require__(197)
+	  , forEach = __webpack_require__(198)
 	  , isArray = function(arg) {
 	      return Object.prototype.toString.call(arg) === '[object Array]';
 	    }
@@ -24285,7 +24468,7 @@
 	}
 
 /***/ },
-/* 196 */
+/* 197 */
 /***/ function(module, exports) {
 
 	
@@ -24305,10 +24488,10 @@
 
 
 /***/ },
-/* 197 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isFunction = __webpack_require__(194)
+	var isFunction = __webpack_require__(195)
 	
 	module.exports = forEach
 	
@@ -24357,7 +24540,7 @@
 
 
 /***/ },
-/* 198 */
+/* 199 */
 /***/ function(module, exports) {
 
 	module.exports = extend
@@ -24382,12 +24565,12 @@
 
 
 /***/ },
-/* 199 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var PreloadedData = __webpack_require__(175);
+	var PreloadedData = __webpack_require__(176);
 	var ReactDOM = __webpack_require__(34);
 	
 	function render(element, preloadedData, domNode, cb) {
@@ -24400,16 +24583,16 @@
 
 
 /***/ },
-/* 200 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var PreloadedData = __webpack_require__(175);
-	var ReactDOMServer = __webpack_require__(201);
+	var PreloadedData = __webpack_require__(176);
+	var ReactDOMServer = __webpack_require__(202);
 	
-	var invariant = __webpack_require__(176);
-	var performXhr = __webpack_require__(190);
+	var invariant = __webpack_require__(177);
+	var performXhr = __webpack_require__(191);
 	
 	// TODO: multiple passes should be considered an antipattern, but do we want to
 	// support it anyway?
@@ -24456,16 +24639,16 @@
 
 
 /***/ },
-/* 201 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	module.exports = __webpack_require__(202);
+	module.exports = __webpack_require__(203);
 
 
 /***/ },
-/* 202 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -24482,7 +24665,7 @@
 	'use strict';
 	
 	var ReactDefaultInjection = __webpack_require__(39);
-	var ReactServerRendering = __webpack_require__(203);
+	var ReactServerRendering = __webpack_require__(204);
 	var ReactVersion = __webpack_require__(32);
 	
 	ReactDefaultInjection.inject();
@@ -24496,7 +24679,7 @@
 	module.exports = ReactDOMServer;
 
 /***/ },
-/* 203 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24519,7 +24702,7 @@
 	var ReactInstrumentation = __webpack_require__(62);
 	var ReactMarkupChecksum = __webpack_require__(165);
 	var ReactReconciler = __webpack_require__(59);
-	var ReactServerBatchingStrategy = __webpack_require__(204);
+	var ReactServerBatchingStrategy = __webpack_require__(205);
 	var ReactServerRenderingTransaction = __webpack_require__(129);
 	var ReactUpdates = __webpack_require__(56);
 	
@@ -24592,7 +24775,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 204 */
+/* 205 */
 /***/ function(module, exports) {
 
 	/**
@@ -24617,6 +24800,51 @@
 	};
 	
 	module.exports = ReactServerBatchingStrategy;
+
+/***/ },
+/* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactXhr = __webpack_require__(174);
+	
+	var _reactXhr2 = _interopRequireDefault(_reactXhr);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var BoxSlideViewer = _react2.default.createClass({
+	  displayName: 'BoxSlideViewer',
+	
+	  'mixins': [_reactXhr2.default.Mixin],
+	
+	  // xhr setting
+	  getXhrs: function getXhrs() {
+	    return {
+	      expiring_embed_link: {
+	        url: '/api/expiring_embed_link/' + this.props.file_id,
+	        method: 'get'
+	      }
+	    };
+	  },
+	  render: function render() {
+	    var data = this.state.xhrs.expiring_embed_link.body;
+	    var viewer_src = data.expiring_embed_link && data.expiring_embed_link.url || null;
+	
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      /* if viewer src url is obtained, we'll show up file viewer */
+	      viewer_src ? _react2.default.createElement('iframe', { src: viewer_src, width: this.props.width, height: this.props.height }) : null
+	    );
+	  }
+	});
+	
+	module.exports = BoxSlideViewer;
 
 /***/ }
 /******/ ]);
