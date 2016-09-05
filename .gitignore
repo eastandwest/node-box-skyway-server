@@ -41,3 +41,9 @@ conf/*.json
 
 # temporary file (for upload)
 tmp/*.tmp
+
+# build files
+public/scripts/*.build.js
+public/scripts/*.build.min.js
+public/scripts/*.build.js.map
+public/scripts/*.build.min.js.map
