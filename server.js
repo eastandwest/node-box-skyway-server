@@ -60,7 +60,7 @@ app.get('/', (req, res) => {
 
   if( req.query.code ) {
     const code = req.query.code;
-    const url = !!state ? state : '/foldeer/0';
+    const url = !!state ? state : '/folder/0';
 
     box.createClient(sess.id, code, (err, data) => {
       if ( data ) {
