@@ -130,6 +130,22 @@ app.get('/file/:file_id', (req, res) => {
   })
 })
 
+app.get('/shared/:user_id', (req, res) => {
+  const user_id = req.params.user_id;
+  const shared_data = dataStore[req.params.user_id];
+
+  if(shared_data) {
+    const opts = {
+      'title': 'box-skyway: shared contents',
+      'user_data': shared_data.user_data,
+      'file_datas': shared_data.file_datas
+    }
+    res.render('shared', opts);
+  } else {
+    res.status(404).send("not found");
+  }
+});
+
 // apis
 
 app.get('/api/folder_items/:folder_id', (req, res) => {

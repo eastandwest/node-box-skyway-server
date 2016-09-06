@@ -27,6 +27,7 @@ class BoxFileViewerMeta extends React.Component {
   render() {
     const file_data = this.props.file_data;
     const thumbnailurl = '/api/thumbnail/' + file_data.id;
+    const sharedUrl = '/shared/' + this.props.user_data.id;
     const qs = 'min_width=32&min_height=32';
 
     const req = thumbnailurl + '?' + qs;
@@ -40,6 +41,7 @@ class BoxFileViewerMeta extends React.Component {
           <li>parent folder: { file_data.parent.name }</li>
           <li>parent folder_id: { file_data.parent.id }</li>
           <li><a href={ file_data.viewer_src }>viewer_url</a></li>
+          <li><a href={ sharedUrl }>shared contents page</a></li>
         </ul>
         <form onSubmit={this.onFormSubmitted}>
           <label>

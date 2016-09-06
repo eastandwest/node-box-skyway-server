@@ -3,65 +3,9 @@
 import React from 'react';
 import ReactXhr from 'react-xhr';
 
-class BoxFolderViewerPath extends React.Component {
-  handleOnClick(ev, path) {
-    ev.preventDefault();
-    if(this.props.onPathClicked) this.props.onPathClicked(path);
-  }
-  render() {
-    const pathes = this.props.pathes;
-    return(
-      <div>
-        <h2>Path info</h2>
-        <ul>
-        { pathes.map( (path, key) => {
-          const href = "/folder/" + path.id;
-          return (
-            <li key={key}>
-              <a href={href} onClick={ (ev) => { this.handleOnClick.bind(this, ev, path)(); } }>{path.name}</a>
-            </li>
-          )
-        })}
-        </ul>
-      </div>
-    )
-  }
-}
+import BoxFolderViewerItems from './box-folder-viewer-items.jsx';
+import BoxFolderViewerPath from './box-folder-viewer-path.jsx';
 
-class BoxFolderViewerItems extends React.Component {
-  handleOnClick(ev, item) {
-    ev.preventDefault();
-    if(this.props.onItemClicked) this.props.onItemClicked(item);
-  }
-  render() {
-    return (
-      <div>
-        <h2>Items view</h2>
-        <ul>
-        { this.props.items.map( (item, key) =>{
-          const thumbnailurl = '/api/thumbnail/' + item.id;
-          const qs = 'min_width=32&min_height=32';
-          const req_url = thumbnailurl + "?" + qs;
-
-          return (
-            <li key={key}>
-              { /* in case of file, we'll show up thubmnail icon image */
-                item.type === "file" ?
-                <img src={req_url} /> : ""
-              }
-
-              {/* we'll show up file type and name everytime */}
-              <a href="" onClick={ (ev) => { this.handleOnClick.bind(this, ev, item)()} }>
-                {item.type}: {item.name}
-              </a>
-            </li>
-          )
-        })}
-        </ul>
-      </div>
-    )
-  }
-}
 
 const BoxFolderViewer = React.createClass({
   mixins:  [ReactXhr.Mixin],
