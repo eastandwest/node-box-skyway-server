@@ -14,10 +14,12 @@
   "author": "kensaku komatsu",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "box-node-sdk": "^1.0.0",
     "ejs": "^2.5.1",
     "express": "^4.14.0",
     "express-session": "^1.14.1",
+    "jquery": "^3.1.0",
     "log4js": "^0.6.38",
     "logger": "0.0.1"
   },

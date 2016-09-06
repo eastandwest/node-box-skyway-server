@@ -2,6 +2,7 @@
 
 const express = require('express');
 const session = require('express-session');
+const bodyParser = require('body-parser');
 const log4js = require('log4js');
 const fs = require('fs');
 const https = require('https');
@@ -20,6 +21,8 @@ const logger = log4js.getLogger("app");
 const key  = fs.readFileSync(__dirname + "/keys/server.key");
 const cert = fs.readFileSync(__dirname + "/keys/server.crt");
 const credentials = {'key': key, 'cert': cert};
+
+const dataStore = {}; // fixme : change it as persistent db
 const PORT = process.env.PORT || 3000;
 
 //////////////////////////////////////////////////////////////
@@ -38,6 +41,8 @@ app.use(session({
     "secure": true
   }
 }))
+app.use(bodyParser.json())
+// Gapp.use(bodyParser.urlencoded({ extended: false }))
 
 //////////////////////////////////////////////////////////////
 // routing section
@@ -193,6 +198,35 @@ app.get('/api/thumbnail/:file_id', (req, res) => {
       res.status(403).send(err);
     }
   });
+})
+
+app.post('/api/share/:user_id', (req, res) => {
+  const user_id = req.params.user_id;
+  const user_data = req.body.user_data || {};
+  const file_data = req.body.file_data || {};
+  const doShare = req.body.doShare || false;
+
+  if(user_id === user_data.id && file_data.id) {
+    // fixme: remove file_data, if expired itself.
+    dataStore[user_id] = dataStore[user_id] || {};
+    dataStore[user_id].user_data = user_data;
+    dataStore[user_id].file_datas = dataStore[user_id].file_datas || {};
+    if(doShare) {
+      dataStore[user_id].file_datas[file_data.id] = doShare ? file_data : null;
+    } else {
+      delete dataStore[user_id].file_datas[file_data.id];
+    }
+
+    console.dir(dataStore);
+
+    res.send("succeeded to share");
+  } else {
+    let mesg = (user_id !== user_data.id) ?
+      "user_id does not match with sent data":
+      "file id does not included";
+    logger.warn(mesg);
+    res.status(400).send(mesg);
+  }
 })
 
 //////////////////////////////////////////////////////////////

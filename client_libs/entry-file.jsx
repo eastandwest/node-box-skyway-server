@@ -12,7 +12,7 @@ const user_data = g_user_data;
 ReactDOM.render(
   <div>
     <BoxUserProfile user_data={user_data} />
-    <BoxFileViewer file_data={file_data} />
+    <BoxFileViewer file_data={file_data} user_data={user_data} />
   </div>,
   document.getElementById('main-contents')
 );

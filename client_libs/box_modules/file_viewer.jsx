@@ -3,12 +3,22 @@
 import React from 'react';
 import ReactXhr from 'react-xhr';
 
+import $ from 'jquery';
 import BoxSlideViewer from './slide_viewer.jsx';
 
 class BoxFileViewerMeta extends React.Component {
-  onCheckBoxClicked(ev) {
-    console.log(ev.target.checked)
+  onCheckBoxClicked(ev, props) {
+    const doShare = ev.target.checked;
 
+    $.ajaxSetup( {"contentType": "application/json"} )
+
+    $.post("/api/share/" + props.user_data.id, JSON.stringify({
+      user_data: props.user_data,
+      file_data: props.file_data,
+      doShare: doShare
+    }), (err, res) => {
+      console.log(err,res);
+    })
   }
   onFormSubmitted(ev) {
     ev.preventDefault();
@@ -33,7 +43,9 @@ class BoxFileViewerMeta extends React.Component {
         </ul>
         <form onSubmit={this.onFormSubmitted}>
           <label>
-            <input type="checkbox" name="share" onClick={this.onCheckBoxClicked}/> share it as temporal
+            <input type="checkbox" name="share" onClick={
+              (ev) => this.onCheckBoxClicked.bind(this, ev, this.props)()
+            }/> share it as temporal
           </label><br />
 
           <p>send temporal link for this page by SendGrid.</p>
@@ -84,7 +96,7 @@ const BoxFileViewer = React.createClass ({
       <div className="rn-components">
         <BoxFileViewerParentLink parent={this.state.file_data.parent} />
         <BoxSlideViewer viewer_src={this.state.file_data.viewer_src} width="640" height="480" />
-        <BoxFileViewerMeta file_data={this.state.file_data} />
+        <BoxFileViewerMeta file_data={this.state.file_data} user_data={this.props.user_data} />
       </div>
     );
   }
