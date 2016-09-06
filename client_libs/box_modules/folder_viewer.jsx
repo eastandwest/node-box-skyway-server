@@ -3,8 +3,6 @@
 import React from 'react';
 import ReactXhr from 'react-xhr';
 
-import BoxSlideViewer from './slide_viewer.jsx';
-
 class BoxFolderViewerPath extends React.Component {
   handleOnClick(ev, path) {
     ev.preventDefault();
@@ -47,11 +45,6 @@ class BoxFolderViewerItems extends React.Component {
 
           return (
             <li key={key}>
-              { /* in case of file, we'll show up small slide viewer */
-                item.type === "file" ?
-                <div><BoxSlideViewer file_id={item.id} width="128" height="160" /></div> : ""
-              }
-
               { /* in case of file, we'll show up thubmnail icon image */
                 item.type === "file" ?
                 <img src={req_url} /> : ""

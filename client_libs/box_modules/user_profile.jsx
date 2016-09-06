@@ -4,6 +4,7 @@ import React from 'react';
 
 class BoxUserProfile extends React.Component{
   render() {
+    console.log(this.props.user_data);
     return(
       <div className="rn-components">
         <h2>user_info</h2>

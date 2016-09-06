@@ -6,6 +6,14 @@ import ReactXhr from 'react-xhr';
 import BoxSlideViewer from './slide_viewer.jsx';
 
 class BoxFileViewerMeta extends React.Component {
+  onCheckBoxClicked(ev) {
+    console.log(ev.target.checked)
+
+  }
+  onFormSubmitted(ev) {
+    ev.preventDefault();
+
+  }
   render() {
     const file_data = this.props.file_data;
     const thumbnailurl = '/api/thumbnail/' + file_data.id;
@@ -21,7 +29,17 @@ class BoxFileViewerMeta extends React.Component {
           <li>id: { file_data.id }</li>
           <li>parent folder: { file_data.parent.name }</li>
           <li>parent folder_id: { file_data.parent.id }</li>
+          <li><a href={ file_data.viewer_src }>viewer_url</a></li>
         </ul>
+        <form onSubmit={this.onFormSubmitted}>
+          <label>
+            <input type="checkbox" name="share" onClick={this.onCheckBoxClicked}/> share it as temporal
+          </label><br />
+
+          <p>send temporal link for this page by SendGrid.</p>
+          <textarea></textarea><br />
+          <button type="submit">send</button>
+        </form>
       </div>
     )
   }
@@ -39,24 +57,37 @@ class BoxFileViewerParentLink extends React.Component {
   }
 }
 
-class BoxFileViewer extends React.Component {
-  constructor(props) {
-    super();
+const BoxFileViewer = React.createClass ({
+  'mixins': [ReactXhr.Mixin],
 
-    this.state = {
-      file_data: props.file_data,
+  'getInitialState': function() {
+    return {
+      file_data: this.props.file_data,
     }
-  }
+  },
+
+  // xhr setting
+  getXhrs: function() {
+    return {
+      expiring_embed_link: {
+        url: '/api/expiring_embed_link/' + this.state.file_data.id,
+        method: 'get'
+      }
+    };
+  },
+
 
   render() {
+    const data = this.state.xhrs.expiring_embed_link.body;
+    this.state.file_data.viewer_src = data.expiring_embed_link && data.expiring_embed_link.url|| null;
     return(
       <div className="rn-components">
         <BoxFileViewerParentLink parent={this.state.file_data.parent} />
-        <BoxSlideViewer file_id={this.state.file_data.id} width="640" height="480" />
+        <BoxSlideViewer viewer_src={this.state.file_data.viewer_src} width="640" height="480" />
         <BoxFileViewerMeta file_data={this.state.file_data} />
       </div>
     );
   }
-};
+});
 
 module.exports = BoxFileViewer;
