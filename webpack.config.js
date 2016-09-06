@@ -11,7 +11,8 @@ switch(process.env.NODE_ENV) {
     _entry = {
       "skyway-box-react-folder": "./client_libs/entry-folder.jsx",
       "skyway-box-react-file": "./client_libs/entry-file.jsx",
-      "style": ["./css/bootstrap.scss", "./css/app.scss"]
+      "style": ["./css/bootstrap.scss", "./css/app.scss"],
+      "skyway-box-react-shared": "./client_libs/entry-shared.jsx"
     };
     break;
 }
