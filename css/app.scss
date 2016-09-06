@@ -1,0 +1,31 @@
+html, body {
+  height: 100%;
+}
+
+.container.login-container {
+  height: 100%;
+  > .row:first-child {
+    height: 100%;
+  }
+  .login {
+    text-align: center;
+    h1 {
+      background: url(../img/logo1.png) no-repeat;
+      background-size: 500px 83px;
+      text-indent: -10000px;
+      width: 500px;
+      height: 83px;
+      margin: 0 auto 1rem;
+    }
+    .lead {
+      font-size: 1.6rem;
+    }
+  }
+}
+
+.test {
+    .test2 {
+        color: #366;
+    }
+    
+}

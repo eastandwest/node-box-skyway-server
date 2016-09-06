@@ -4,24 +4,24 @@
   <% include ./partials/head %>
 </head>
 <body>
-  <header>
-  <% include ./partials/header %>
-  </header>
-  <main>
-    <div>
-      <h1>Welcome to SlideShare for Enterprise</h1>
-      <p>leveraging box and skyway technology</p>
+  <div class="container login-container">
+    <div class="row flex-items-xs-middle">
+      <div class="col-xs">
+      </div>
+      <div class="col-xs-8">
+        <div class="login">
+          <h1>InsideShare</h1>
+          <p class="lead">SlideShare Service for Onpremise Use-case</p>
+          <p>
+            <a href="<%= auth_endpoint %>?response_type=code&client_id=<%= client_id %>&state=<%= state %>" class="btn btn-primary btn-lg" style="padding-left: 3rem; padding-right: 3rem;">
+              Login
+            </a>
+          </p>
+        </div>
+      </div>
+      <div class="col-xs">
+      </div>
     </div>
-    <div>
-      <p>
-        <a href="<%= auth_endpoint %>?response_type=code&client_id=<%= client_id %>&state=<%= state %>">
-          Login: box
-        </a>
-      </p>
-    </div>
-  </main>
-  <footer>
-  <% include ./partials/footer %>
-  </footer>
+  </div>
 </body>
 </html>

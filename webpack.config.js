@@ -10,7 +10,8 @@ switch(process.env.NODE_ENV) {
   default:
     _entry = {
       "skyway-box-react-folder": "./client_libs/entry-folder.jsx",
-      "skyway-box-react-file": "./client_libs/entry-file.jsx"
+      "skyway-box-react-file": "./client_libs/entry-file.jsx",
+      "style": ["./css/bootstrap.scss", "./css/app.scss"]
     };
     break;
 }
@@ -20,7 +21,7 @@ module.exports = {
   devtool: "source-map",
   output: {
     path: path.join(__dirname, "public/scripts"),
-    publicPath: "public/scripts",
+    //publicPath: "public/scripts",
     filename: process.env.NODE_ENV === "production" ? "[name].build.min.js" : "[name].build.js"
   },
   module: {
@@ -50,9 +51,19 @@ module.exports = {
       {
         test: /\.(woff|svg|ttf|eot)([\?]?.*)$/,
         loader: 'file-loader?name=[name].[ext]'
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loaders: [
+            'file?hash=sha512&digest=hex&name=[hash].[ext]',
+            'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+        ]
       }
     ]
   },
+  plugins: [
+    new ExtractTextPlugin('styles.css')
+  ],
   devServer:{
     port: process.env.PORT || PORT
   }
