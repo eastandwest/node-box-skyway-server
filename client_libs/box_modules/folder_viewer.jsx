@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactXhr from 'react-xhr';
 
-import BoxSlideViewer from './slide_viewer';
+import BoxSlideViewer from './slide_viewer.jsx';
 
 class BoxFolderViewerPath extends React.Component {
   handleOnClick(ev, path) {

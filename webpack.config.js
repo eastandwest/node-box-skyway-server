@@ -8,8 +8,8 @@ switch(process.env.NODE_ENV) {
   case "test":
   default:
     _entry = {
-      "skyway-box-react-folder": "./client_libs/entry-folder.js",
-      "skyway-box-react-file": "./client_libs/entry-file.js"
+      "skyway-box-react-folder": "./client_libs/entry-folder.jsx",
+      "skyway-box-react-file": "./client_libs/entry-file.jsx"
     };
     break;
 }

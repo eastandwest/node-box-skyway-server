@@ -95,7 +95,7 @@ app.get('/folder/:folder_id', (req, res) => {
       }
       res.render('folder', opts);
     }  else {
-      logger.warn("cannot get user info for %s", sess.id);
+      logger.warn("/folder/:id --- cannot get user info for %s", sess.id);
       res.redirect("/?prev=/folder/"+folder_id);
     }
   });
