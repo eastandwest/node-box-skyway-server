@@ -7,7 +7,7 @@ class BoxUserProfile extends React.Component{
     console.log(this.props.user_data);
     return(
       <nav className="navbar navbar-light bg-faded">
-        <a className="navbar-brand" href="#"><h1>InsideShare</h1></a>
+        <a className="navbar-brand" href="/folder/0"><h1>InsideShare</h1></a>
         <ul className="nav navbar-nav">
         </ul>
         <form className="form-inline pull-xs-right">
