@@ -63,7 +63,7 @@ const BoxFolderViewer = React.createClass({
     return(
       <div className="folder-viewer-components">
         <BoxFolderViewerPath pathes={pathes} onPathClicked={this.handlePathClicked} />
-        <BoxFolderViewerItems items={file_entries} onItemClicked={this.handleItemClicked} />
+        <BoxFolderViewerItems title={this.props.title} items={file_entries} onItemClicked={this.handleItemClicked} />
       </div>
     );
   }

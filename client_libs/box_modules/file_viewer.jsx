@@ -20,7 +20,7 @@ const BoxFileViewer = React.createClass ({
   getXhrs: function() {
     return {
       expiring_embed_link: {
-        url: '/api/expiring_embed_link/' + this.state.file_data.id,
+        url: '/api/expiring_embed_link/' + this.state.file_data.id + '/' + this.props.user_data._box_client_id,
         method: 'get'
       }
     };
@@ -29,11 +29,12 @@ const BoxFileViewer = React.createClass ({
 
   render() {
     const data = this.state.xhrs.expiring_embed_link.body;
-    this.state.file_data.viewer_src = data.expiring_embed_link && data.expiring_embed_link.url|| null;
+    const viewer_src = data.expiring_embed_link && data.expiring_embed_link.url || null;
+
     return(
       <div className="file-viewer-component">
         <BoxFileViewerParentLink parent={this.state.file_data.parent} />
-        <BoxSlideViewer viewer_src={this.state.file_data.viewer_src} width="640" height="480" />
+        <BoxSlideViewer viewer_src={viewer_src} width="640" height="480" />
         <BoxFileViewerMeta file_data={this.state.file_data} user_data={this.props.user_data} />
       </div>
     );

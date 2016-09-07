@@ -12,7 +12,7 @@ const folder_id = g_folder_id
 ReactDOM.render(
   <div>
     <BoxUserProfile user_data={user_data} />
-    <BoxFolderViewer folderId={folder_id} />
+    <BoxFolderViewer title="Your files" folderId={folder_id} />
   </div>,
   document.getElementById('main-contents')
 );

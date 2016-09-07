@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import BoxUserProfile from './box_modules/user_profile.jsx';
+import BoxUserProfileShared from './box_modules/user-profile-shared.jsx';
 import BoxFolderViewerItems from './box_modules/box-folder-viewer-items.jsx';
 
 function hashMap(obj) {
@@ -28,8 +29,9 @@ function handleItemClicked(item) {
 
 ReactDOM.render(
   <div>
-    <BoxUserProfile user_data={user_data} />
-    <BoxFolderViewerItems items={file_datas} onItemClicked={handleItemClicked} />
+    <BoxUserProfile user_data="" />
+    <BoxUserProfileShared user_data={user_data} />
+    <BoxFolderViewerItems title="Shared files" items={file_datas} onItemClicked={handleItemClicked} />
   </div>,
   document.getElementById('main-contents')
 );

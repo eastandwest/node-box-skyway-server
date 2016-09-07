@@ -13,6 +13,8 @@ const BoxInterface = require('./server_libs/box_interface');
 
 const conf = require("./conf/conf.json");
 
+const md5 = require('md5');
+
 const app = express();
 const logger = log4js.getLogger("app");
 
@@ -27,6 +29,8 @@ const credentials = {'key': key, 'cert': cert};
 const dataStore = {}; // fixme : change it as persistent db
 const PORT = process.env.PORT || 3000;
 
+const hash_seed = 'mosocone center';
+
 //////////////////////////////////////////////////////////////
 // server setting section
 //////////////////////////////////////////////////////////////
@@ -39,7 +43,7 @@ app.use(session({
   "resave" : false,
   "saveUninitialized": true,
   "cookie": {
-    "maxAge": 86400,
+    "maxAge": 86400000,
     "secure": true
   }
 }))
@@ -56,6 +60,8 @@ app.use(bodyParser.json())
 app.get('/', (req, res) => {
   const sess = req.session;
 
+  sess.box_client_id = sess.box_client_id || md5(new Date().getTime() + hash_seed);
+
   const opts = {
     'title': 'box-skyway: login page',
     'auth_endpoint': box.auth_endpoint,
@@ -69,7 +75,7 @@ app.get('/', (req, res) => {
     const code = req.query.code;
     const url = !!state ? state : '/folder/0';
 
-    box.createClient(sess.id, code, (err, data) => {
+    box.createClient(sess.box_client_id, code, (err, data) => {
       if ( data ) {
         res.redirect(url);
       } else {
@@ -92,7 +98,7 @@ app.get('/folder/:folder_id', (req, res) => {
   const sess = req.session;
 
 
-  box.getUserInfo(sess.id, (err, user_data) => {
+  box.getUserInfo(sess.box_client_id, (err, user_data) => {
     if( user_data ) {
 
       const opts = {
@@ -102,7 +108,7 @@ app.get('/folder/:folder_id', (req, res) => {
       }
       res.render('folder', opts);
     }  else {
-      logger.warn("/folder/:id --- cannot get user info for %s", sess.id);
+      logger.warn("/folder/:id --- cannot get user info for %s", sess.box_client_id);
       res.redirect("/?prev=/folder/"+folder_id);
     }
   });
@@ -112,9 +118,10 @@ app.get('/file/:file_id', (req, res) => {
   const sess = req.session;
   const file_id = req.params.file_id;
 
-  box.getUserInfo(sess.id, (err, user_data) => {
+  box.getUserInfo(sess.box_client_id, (err, user_data) => {
     if(user_data && !err) {
-      box.getFileInfo(sess.id, file_id, (err, file_data) => {
+      user_data._box_client_id = sess.box_client_id;
+      box.getFileInfo(sess.box_client_id, file_id, (err, file_data) => {
         if(file_data && !err) {
           const opts = {
             'title': 'box-skyway: file',
@@ -123,10 +130,12 @@ app.get('/file/:file_id', (req, res) => {
           }
           res.render('file', opts);
         } else {
+          logger.debug("file/%d - err while getFileInfo : %s", file_id, err.toString())
           res.redirect('/?prev=/file/'+file_id);
         }
       })
     } else {
+      logger.debug("/file/%d - err while getUserInfo : %s", file_id, err.toString())
       res.redirect('/?prev=/file/'+file_id);
     }
   })
@@ -171,9 +180,9 @@ app.get('/api/folder_items/:folder_id', (req, res) => {
   const folder_id = req.params.folder_id;
   const sess = req.session;
 
-  if(!sess.id) { res.redirect('/'); }
+  if(!sess.box_client_id) { res.redirect('/'); }
 
-  box.getFolderItems(sess.id, folder_id, (err, data) => {
+  box.getFolderItems(sess.box_client_id, folder_id, (err, data) => {
     if(data && !err) {
       res.json(data);
     } else {
@@ -186,9 +195,9 @@ app.get('/api/folder_info/:folder_id', (req, res) => {
   const folder_id = req.params.folder_id;
   const sess = req.session;
 
-  if(!sess.id) { res.redirect('/'); }
+  if(!sess.box_client_id) { res.redirect('/'); }
 
-  box.getFolderInfo(sess.id, folder_id, (err, data) => {
+  box.getFolderInfo(sess.box_client_id, folder_id, (err, data) => {
     if(data && !err) {
       res.json(data);
     } else {
@@ -197,13 +206,14 @@ app.get('/api/folder_info/:folder_id', (req, res) => {
   })
 })
 
-app.get('/api/expiring_embed_link/:file_id', (req, res) => {
+app.get('/api/expiring_embed_link/:file_id/:box_client_id', (req, res) => {
   const file_id = req.params.file_id;
   const sess = req.session;
+  const box_client_id = req.params.box_client_id || sess.box_client_id;
 
-  if(!sess.id) { res.redirect('/'); }
+  if(!sess.box_client_id) { res.redirect('/'); }
 
-  box.getExpiringEmbedLink(sess.id, file_id, (err, data) => {
+  box.getExpiringEmbedLink(sess.box_client_id, file_id, (err, data) => {
     if(data && !err) {
       res.json(data);
     } else {
@@ -217,9 +227,9 @@ app.get('/api/thumbnail/:file_id', (req, res) => {
   const sess = req.session;
   const qs = req.query;
 
-  if(!sess.id) { res.redirect('/'); }
+  if(!sess.box_client_id) { res.redirect('/'); }
 
-  box.getThumbnail(sess.id, file_id, qs, (err, data) => {
+  box.getThumbnail(sess.box_client_id, file_id, qs, (err, data) => {
     if(data && !err) {
       if(data.location) {
         res.redirect(data.location);
@@ -256,6 +266,14 @@ app.post('/api/sendMail/:user_id/:file_id', (req, res) => {
 });
 
 app.post('/api/share/:user_id', (req, res) => {
+  const sess = req.session;
+
+  if(!sess.id) {
+    logger.warn("/api/share/%s - no session id found", req.params.user_id);
+    res.status(403).send("access prohibited");
+    return (-1);
+  }
+
   const user_id = req.params.user_id;
   const user_data = req.body.user_data || {};
   const file_data = req.body.file_data || {};
@@ -266,15 +284,15 @@ app.post('/api/share/:user_id', (req, res) => {
     dataStore[user_id] = dataStore[user_id] || {};
     dataStore[user_id].user_data = user_data;
     dataStore[user_id].file_datas = dataStore[user_id].file_datas || {};
+    dataStore[user_id].box_client_id = sess.box_client_id;
+
     if(doShare) {
       dataStore[user_id].file_datas[file_data.id] = doShare ? file_data : null;
     } else {
       delete dataStore[user_id].file_datas[file_data.id];
     }
 
-    console.dir(dataStore);
-
-    res.send("succeeded to share");
+    res.send("succeeded to store shared info into dataStore");
   } else {
     let mesg = (user_id !== user_data.id) ?
       "user_id does not match with sent data":

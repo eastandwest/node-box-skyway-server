@@ -10,7 +10,7 @@ class BoxFolderViewerItems extends React.Component {
   render() {
     return (
       <div className="container-fluid-tests">
-        <h2>Shared Files</h2>
+        { this.props.title ? <h2>{this.props.title}</h2> : '' }
         <table className="table table-striped folder-view">
           <tbody>
           { this.props.items.map( (item, key) =>{

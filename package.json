@@ -25,6 +25,7 @@
     "jquery": "^3.1.0",
     "log4js": "^0.6.38",
     "logger": "0.0.1",
+    "md5": "^2.2.1",
     "sendgrid": "^4.0.2"
   },
   "devDependencies": {

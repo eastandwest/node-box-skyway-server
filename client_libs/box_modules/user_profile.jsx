@@ -4,7 +4,6 @@ import React from 'react';
 
 class BoxUserProfile extends React.Component{
   render() {
-    console.log(this.props.user_data);
     return(
       <nav className="navbar navbar-light bg-faded">
         <a className="navbar-brand" href="/folder/0"><h1>InsideShare</h1></a>
@@ -12,10 +11,11 @@ class BoxUserProfile extends React.Component{
         </ul>
         <form className="form-inline pull-xs-right">
           <input className="form-control" type="text" placeholder="Search Files" />
+          { this.props.user_data ? (
           <ul className="userInfo">
             <li><img src={this.props.user_data.avatar_url} /></li>
             <li>{this.props.user_data.name}</li>
-          </ul>
+          </ul>): '' }
         </form>
       </nav>
     )

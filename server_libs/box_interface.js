@@ -6,6 +6,7 @@ const conf = require('../conf/conf.json');
 const log4js = require('log4js');
 const logger = log4js.getLogger("box_interface")
 
+
 class BoxInterface {
   constructor() {
     this._client_id     = conf.box.client_id;
@@ -35,6 +36,7 @@ class BoxInterface {
       if ( tokenInfo ) {
         const client = this.box.getPersistentClient(tokenInfo);
         this._clients[box_client_id] = client;
+        logger.debug("succeeded to get access_token", tokenInfo)
         callback(null, "succeed");
       } else {
         const err_mesg = "can't create token : " + err.toString();
@@ -49,6 +51,7 @@ class BoxInterface {
   }
 
   getUserInfo(box_client_id, callback) {
+    logger.debug("getUserInfo - %s", box_client_id);
     const box_client = this.getBoxClient(box_client_id);
     if(box_client) {
       box_client.users.get(
@@ -57,7 +60,7 @@ class BoxInterface {
         callback
       );
     } else {
-      callback("can't find box client for " + box_client_id.substring(0, 8), null);
+      callback("can't find box client for " + box_client_id, null);
     }
   }
 
@@ -71,7 +74,7 @@ class BoxInterface {
         callback
       );
     } else {
-      callback("can't find box client for " + box_client_id.substring(0, 8), null);
+      callback("can't find box client for " + box_client_id, null);
     }
   }
 
@@ -85,7 +88,7 @@ class BoxInterface {
         callback
       );
     } else {
-      callback("can't find box client for " + box_client_id.substring(0, 8), null);
+      callback("can't find box client for " + box_client_id, null);
     }
   }
 
@@ -95,7 +98,7 @@ class BoxInterface {
     if(box_client) {
       box_client.files.getThumbnail(file_id, qs, callback);
     } else {
-      callback("can't find box client for " + box_client_id.substring(0, 8), null);
+      callback("can't find box client for " + box_client_id, null);
     }
   }
 
@@ -114,7 +117,7 @@ class BoxInterface {
         callback
       );
     } else {
-      callback("can't find box client for " + box_client_id.substring(0, 8), null);
+      callback("can't find box client for " + box_client_id, null);
     }
   }
 
@@ -132,7 +135,7 @@ class BoxInterface {
         callback
       );
     } else {
-      callback("can't find box client for " + box_client_id.substring(0, 8), null);
+      callback("can't find box client for " + box_client_id, null);
     }
   }
 }
