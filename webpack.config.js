@@ -12,7 +12,8 @@ switch(process.env.NODE_ENV) {
       "skyway-box-react-folder": "./client_libs/entry-folder.jsx",
       "skyway-box-react-file": "./client_libs/entry-file.jsx",
       "style": ["./css/bootstrap.scss", "./css/app.scss"],
-      "skyway-box-react-shared": "./client_libs/entry-shared.jsx"
+      "skyway-box-react-shared": "./client_libs/entry-shared.jsx",
+      "skyway-box-react-shared-file": "./client_libs/entry-shared-file.jsx"
     };
     break;
 }

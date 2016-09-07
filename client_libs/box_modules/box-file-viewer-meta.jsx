@@ -24,6 +24,8 @@ class BoxFileViewerMeta extends React.Component {
   }
   render() {
     const file_data = this.props.file_data;
+
+    console.log(file_data);
     const thumbnailurl = '/api/thumbnail/' + file_data.id;
     const sharedUrl = '/shared/' + this.props.user_data.id;
     const qs = 'min_width=32&min_height=32';
@@ -41,6 +43,7 @@ class BoxFileViewerMeta extends React.Component {
           <li><a href={ file_data.viewer_src }>viewer_url</a></li>
           <li><a href={ sharedUrl }>shared contents page</a></li>
         </ul>
+        { file_data.shared ? "" : (
         <form onSubmit={this.onFormSubmitted}>
           <label>
             <input type="checkbox" name="share" onClick={
@@ -51,7 +54,7 @@ class BoxFileViewerMeta extends React.Component {
           <p>send temporal link for this page by SendGrid.</p>
           <textarea></textarea><br />
           <button type="submit">send</button>
-        </form>
+        </form>) }
       </div>
     )
   }
