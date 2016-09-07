@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+  <% include ./partials/head %>
+</head>
+<body>
+  <header>
+  <% include ./partials/header %>
+  </header>
+  <main>
+    <div id="main-contents"></div>
+  </main>
+  <footer>
+    <% include ./partials/footer %>
+  </footer>
+  <script>
+    var g_user_data = JSON.parse('<%- JSON.stringify(user_data) %>');
+    var g_file_data = JSON.parse('<%- JSON.stringify(file_data) %>');
+
+    g_file_data.shared = true;
+
+  </script>
+  <script src="/scripts/skyway-box-react-shared-file.build.js"></script>
+
+</body>
+</html>

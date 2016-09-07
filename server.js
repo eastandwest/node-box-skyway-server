@@ -146,6 +146,23 @@ app.get('/shared/:user_id', (req, res) => {
   }
 });
 
+app.get('/shared/:user_id/:file_id', (req, res) => {
+  const user_id = req.params.user_id;
+  const file_id = req.params.file_id;
+  const shared_data = dataStore[req.params.user_id];
+
+  if(shared_data) {
+    const opts = {
+      'title': 'box-skyway: shared file',
+      'user_data': shared_data.user_data,
+      'file_data': shared_data.file_datas[file_id],
+    }
+    res.render('shared-file', opts);
+  } else {
+    res.status(404).send("not found");
+  }
+});
+
 // apis
 
 app.get('/api/folder_items/:folder_id', (req, res) => {
