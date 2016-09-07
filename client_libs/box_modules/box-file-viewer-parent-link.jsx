@@ -7,8 +7,8 @@ class BoxFileViewerParentLink extends React.Component {
     const parent = this.props.parent
       , href="/folder/" + parent.id;
     return (
-      <div>
-        <a href={href}>back to folder: {parent.name}</a>
+      <div className="backlink">
+        <a href={href}>&laquo; {parent.name}</a>
       </div>
     )
   }
