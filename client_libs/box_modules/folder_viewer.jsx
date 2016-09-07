@@ -61,7 +61,7 @@ const BoxFolderViewer = React.createClass({
     const pathes = file_entries.length !== 0 ? file_entries[0].path_collection.entries : [];
 
     return(
-      <div className="rn-components">
+      <div className="folder-viewer-components">
         <BoxFolderViewerPath pathes={pathes} onPathClicked={this.handlePathClicked} />
         <BoxFolderViewerItems items={file_entries} onItemClicked={this.handleItemClicked} />
       </div>

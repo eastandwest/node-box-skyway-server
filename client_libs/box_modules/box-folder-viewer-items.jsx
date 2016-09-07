@@ -10,7 +10,7 @@ class BoxFolderViewerItems extends React.Component {
   render() {
     return (
       <div>
-        <h2>Items view</h2>
+        <h2>Shared Files</h2>
         <ul>
         { this.props.items.map( (item, key) =>{
           const thumbnailurl = '/api/thumbnail/' + item.id;
