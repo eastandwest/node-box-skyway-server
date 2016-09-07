@@ -23,6 +23,39 @@ html, body {
   }
 }
 
+.navbar-brand h1 {
+  font-size: 1rem;
+  display: block;
+  background: url(../img/logo1.png) no-repeat;
+  background-size: 229px 38px;
+  text-indent: -10000px;
+  width: 229px;
+  height: 38px;
+  margin-bottom: 0;
+}
+
+.userInfo {
+  margin: 0;
+  padding: 0;
+  float: right;
+  overflow-y: hidden;
+  li {
+    float: left;
+    list-style: none;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+    img {
+      border-radius: 50%;
+      border: 1px solid #ccc;
+    }
+    &:last-child {
+      padding-top: 5px;
+      color:#999;
+      font-size: 1rem;
+    }
+  }
+}
+
 .test {
     .test2 {
         color: #366;

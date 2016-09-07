@@ -11,17 +11,16 @@ class BoxFolderViewerPath extends React.Component {
     const pathes = this.props.pathes;
     return(
       <div>
-        <h2>Path info</h2>
-        <ul>
+        <ol className="breadcrumb">
         { pathes.map( (path, key) => {
           const href = "/folder/" + path.id;
           return (
-            <li key={key}>
+            <li className="breadcrumb-item" key={key}>
               <a href={href} onClick={ (ev) => { this.handleOnClick.bind(this, ev, path)(); } }>{path.name}</a>
             </li>
           )
         })}
-        </ul>
+        </ol>
       </div>
     )
   }
