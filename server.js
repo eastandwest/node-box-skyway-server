@@ -7,6 +7,8 @@ const log4js = require('log4js');
 const fs = require('fs');
 const https = require('https');
 
+const MySendGrid = require('./server_libs/MySendGrid');
+const my_send_grid = new MySendGrid();
 const BoxInterface = require('./server_libs/box_interface');
 
 const conf = require("./conf/conf.json");
@@ -232,6 +234,26 @@ app.get('/api/thumbnail/:file_id', (req, res) => {
     }
   });
 })
+
+app.post('/api/sendMail/:user_id/:file_id', (req, res) => {
+  const to_email = req.body.toemail;
+  const subject = 'insideshare - shared link from your friend';
+  const user_id = req.params.user_id;
+  const file_id = req.params.file_id;
+
+
+  const content = [
+    "<h1>insideshare</h1>"
+    , "<p>Here is shared link from your friend</p>"
+    , "<a href='https://localhost:3000/shared/"+user_id+"/"+file_id+"'>shared link</a>"
+  ].join("");
+
+
+  logger.debug("send mail to %s, %s, %s", to_email, subject, content)
+  my_send_grid.send(to_email, subject, content);
+
+  res.send("finished")
+});
 
 app.post('/api/share/:user_id', (req, res) => {
   const user_id = req.params.user_id;

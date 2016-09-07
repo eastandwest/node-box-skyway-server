@@ -18,9 +18,13 @@ class BoxFileViewerMeta extends React.Component {
       console.log(err,res);
     })
   }
-  onFormSubmitted(ev) {
+  onFormSubmitted(ev, props) {
     ev.preventDefault();
+    $.ajaxSetup( {"contentType": "application/json"} )
 
+    $.post( "/api/sendMail/" + props.user_data.id + "/" + props.file_data.id, JSON.stringify({
+      "toemail": "kensaku.komatsu@gmail.com"
+    }));
   }
   render() {
     const file_data = this.props.file_data;
@@ -44,7 +48,7 @@ class BoxFileViewerMeta extends React.Component {
           <li><a href={ sharedUrl }>shared contents page</a></li>
         </ul>
         { file_data.shared ? "" : (
-        <form onSubmit={this.onFormSubmitted}>
+        <form onSubmit={ (ev) => this.onFormSubmitted.bind(this, ev, this.props)()}>
           <label>
             <input type="checkbox" name="share" onClick={
               (ev) => this.onCheckBoxClicked.bind(this, ev, this.props)()
@@ -52,7 +56,7 @@ class BoxFileViewerMeta extends React.Component {
           </label><br />
 
           <p>send temporal link for this page by SendGrid.</p>
-          <textarea></textarea><br />
+          <textarea>kensaku.komatsu@gmail.com</textarea><br />
           <button type="submit">send</button>
         </form>) }
       </div>

@@ -23,7 +23,8 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "jquery": "^3.1.0",
     "log4js": "^0.6.38",
-    "logger": "0.0.1"
+    "logger": "0.0.1",
+    "sendgrid": "^4.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.7.6",
