@@ -21,6 +21,7 @@
     "express": "^4.14.0",
     "express-session": "^1.14.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "fontawesome": "^4.5.0",
     "jquery": "^3.1.0",
     "log4js": "^0.6.38",
     "logger": "0.0.1"
