@@ -37,9 +37,9 @@ class BoxFileViewerMeta extends React.Component {
     const req = thumbnailurl + '?' + qs;
 
     return (
-      <div>
+      <div className="file-meta-container">
         <h2><img src={req} /> { file_data.name }</h2>
-        <ul>
+        <ul className="file-meta">
           <li>description: { file_data.description }</li>
           <li>id: { file_data.id }</li>
           <li>parent folder: { file_data.parent.name }</li>
@@ -48,16 +48,17 @@ class BoxFileViewerMeta extends React.Component {
           <li><a href={ sharedUrl }>shared contents page</a></li>
         </ul>
         { file_data.shared ? "" : (
-        <form onSubmit={ (ev) => this.onFormSubmitted.bind(this, ev, this.props)()}>
+        <form className="form-inline" onSubmit={ (ev) => this.onFormSubmitted.bind(this, ev, this.props)()}>
           <label>
             <input type="checkbox" name="share" onClick={
               (ev) => this.onCheckBoxClicked.bind(this, ev, this.props)()
             }/> share it as temporal
           </label><br />
-
-          <p>send temporal link for this page by SendGrid.</p>
-          <textarea>kensaku.komatsu@gmail.com</textarea><br />
-          <button type="submit">send</button>
+          <div className="form-group">
+          Send temporal link by SendGrid  
+          <input type="email" value="kensaku.komatsu@gmail.com" className="form-control metamail" id="exampleInputEmail3" placeholder="Enter email" />  
+          <button type="submit" className="btn btn-primary">send</button>
+          </div>
         </form>) }
       </div>
     )
