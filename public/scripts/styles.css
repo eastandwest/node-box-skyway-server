@@ -4891,6 +4891,34 @@ html, body {
     .container.login-container .login .lead {
       font-size: 1.6rem; }
 
+.navbar-brand h1 {
+  font-size: 1rem;
+  display: block;
+  background: url(0ba3e7c6482f16b3a5fb6e605da48110.png) no-repeat;
+  background-size: 229px 38px;
+  text-indent: -10000px;
+  width: 229px;
+  height: 38px;
+  margin-bottom: 0; }
+
+.userInfo {
+  margin: 0;
+  padding: 0;
+  float: right;
+  overflow-y: hidden; }
+  .userInfo li {
+    float: left;
+    list-style: none;
+    vertical-align: middle;
+    margin-left: 0.5rem; }
+    .userInfo li img {
+      border-radius: 50%;
+      border: 1px solid #ccc; }
+    .userInfo li:last-child {
+      padding-top: 5px;
+      color: #999;
+      font-size: 1rem; }
+
 .test .test2 {
   color: #366; }
 
