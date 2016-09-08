@@ -52,11 +52,11 @@ class BoxFileViewerMeta extends React.Component {
           <label>
             <input type="checkbox" name="share" onClick={
               (ev) => this.onCheckBoxClicked.bind(this, ev, this.props)()
-            }/> share it as temporal
+            }/> share it for internal
           </label><br />
           <div className="form-group">
-          Send temporal link by SendGrid  
-          <input type="email" value="kensaku.komatsu@gmail.com" className="form-control metamail" id="exampleInputEmail3" placeholder="Enter email" />  
+          Send temporal link by SendGrid
+          <input type="email" value="kensaku.komatsu@gmail.com" className="form-control metamail" id="exampleInputEmail3" placeholder="Enter email" />
           <button type="submit" className="btn btn-primary">send</button>
           </div>
         </form>) }

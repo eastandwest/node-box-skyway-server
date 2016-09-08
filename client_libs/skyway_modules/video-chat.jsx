@@ -9,6 +9,7 @@ const SkyWayVideoChat = React.createClass({
     return {
       peer: null,
       videos: [],
+      status: 'idle',
       style : {
         border: "1px solid #333",
         width: "320px",
@@ -20,8 +21,10 @@ const SkyWayVideoChat = React.createClass({
 
   handleBtnClicked: function() {
     const peer = new Peer({key: this.props.api_key});
+    this.state.status = 'connecting';
 
     peer.on("open", (peer_id) => {
+      this.state.status = 'connected';
       this.setState({"peer": peer});
       this.startGUM(peer_id);
     });
@@ -84,7 +87,7 @@ const SkyWayVideoChat = React.createClass({
             <div><video key={key} style={this.state.style} src={video.src} autoPlay></video></div>
           )
         })}
-        {this.state.peer ? '' : <button type="button" onClick={this.handleBtnClicked} className="btn btn-info">start video chat</button>}
+        {this.state.status === 'idle' ? <button type="button" onClick={this.handleBtnClicked} className="btn btn-info">start video chat</button> : ''}
       </div>
     )
   }

@@ -7,6 +7,8 @@ import BoxSlideViewer from './slide_viewer.jsx';
 import BoxFileViewerParentLink from './box-file-viewer-parent-link.jsx';
 import BoxFileViewerMeta from './box-file-viewer-meta.jsx'
 
+import SkyWayVideoChat from '../skyway_modules/video-chat.jsx';
+
 const BoxFileViewer = React.createClass ({
   'mixins': [ReactXhr.Mixin],
 
@@ -36,6 +38,7 @@ const BoxFileViewer = React.createClass ({
         <BoxFileViewerParentLink parent={this.state.file_data.parent} />
         <BoxSlideViewer viewer_src={viewer_src} width="640" height="480" />
         <BoxFileViewerMeta file_data={this.state.file_data} user_data={this.props.user_data} />
+        <SkyWayVideoChat api_key="7ca63fc0-9e2a-4ee8-af76-16b538f345cb" file_id={g_file_data.id} />
       </div>
     );
   }

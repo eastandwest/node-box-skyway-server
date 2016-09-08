@@ -211,12 +211,17 @@ app.get('/api/expiring_embed_link/:file_id/:box_client_id', (req, res) => {
   const sess = req.session;
   const box_client_id = req.params.box_client_id || sess.box_client_id;
 
-  if(!sess.box_client_id) { res.redirect('/'); }
 
-  box.getExpiringEmbedLink(sess.box_client_id, file_id, (err, data) => {
+  logger.debug("/api/expiring_embed_link/:file/:id", file_id, box_client_id);
+  logger.debug(sess.box_client_id, req.params.box_client_id);
+
+  if(!!box_client_id === false) { res.redirect('/'); return;}
+
+  box.getExpiringEmbedLink(box_client_id, file_id, (err, data) => {
     if(data && !err) {
       res.json(data);
     } else {
+      logger.warn("/api/expiring_embed_link/:file/:id - ", err);
       res.status(400).send(err);
     }
   })
