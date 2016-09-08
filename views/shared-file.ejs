@@ -2,11 +2,22 @@
 <html>
 <head>
   <% include ./partials/head %>
+  <style>
+    .skyway-video-chat {
+      width: 320px;
+      position: fixed;
+      bottom : 34px;
+      right : 3px;
+    }
+    .skyway-video-chat button{
+      text-align: right;
+    }
+  </style>
 </head>
 <body>
-  
+
   <div id="main-contents"></div>
-  
+
   <footer>
     <% include ./partials/footer %>
   </footer>
@@ -17,6 +28,7 @@
     g_file_data.shared = true;
 
   </script>
+  <script type='text/javascript' src='//cdn.skyway.io/skyway.min.js'></script>
   <script src="/scripts/skyway-box-react-shared-file.build.js"></script>
 
 </body>

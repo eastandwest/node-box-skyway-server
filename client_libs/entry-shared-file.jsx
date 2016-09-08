@@ -9,7 +9,7 @@ import BoxUserProfileShared from './box_modules/user-profile-shared.jsx';
 import BoxFileViewerMeta from './box_modules/box-file-viewer-meta.jsx';
 import BoxSlideViewer from './box_modules/slide_viewer.jsx';
 
-console.log(g_file_data)
+import SkyWayVideoChat from './skyway_modules/video-chat.jsx';
 
 const BoxSlideSharedViewer = React.createClass({
   'mixins': [ReactXhr.Mixin],
@@ -46,6 +46,7 @@ ReactDOM.render(
     <BoxUserProfileShared user_data={g_user_data} />
     <BoxSlideSharedViewer user_data={g_user_data} file_data={g_file_data} width="640" height="480"/>
     <BoxFileViewerMeta user_data={g_user_data} file_data={g_file_data} />
+    <SkyWayVideoChat api_key="7ca63fc0-9e2a-4ee8-af76-16b538f345cb" file_id={g_file_data.id} />
   </div>,
   document.getElementById('main-contents')
 );
